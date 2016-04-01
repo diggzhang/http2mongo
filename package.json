@@ -1,6 +1,6 @@
 {
   "name": "http2mongo",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "Koa.js middleware, sniffer http request/response save to mongodb",
   "main": "index.js",
   "scripts": {
