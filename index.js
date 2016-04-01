@@ -16,3 +16,8 @@ module.exports = function (mongoInstance) {
     console.log("log database connected to: " + mongolink);
     return mongorito.connect(mongolink);
 };
+
+process.on('SIGINT', function () {
+    mongorito.disconnect();
+    console.warn('log database disconnected.')
+});
