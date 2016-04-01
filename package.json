@@ -1,0 +1,27 @@
+{
+  "name": "http2mongo",
+  "version": "0.0.2",
+  "description": "Koa.js middleware, sniffer http request/response save to mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diggzhang/http2mongo"
+  },
+  "keywords": [
+    "koa",
+    "middleware",
+    "mongodb",
+    "request",
+    "response",
+    "log"
+  ],
+  "author": "diggzhang",
+  "license": "ISC",
+  "dependencies": {
+    "mongorito": "^2.0.0",
+    "on-finished": "^2.3.0"
+  }
+}
