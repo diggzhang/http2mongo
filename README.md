@@ -24,7 +24,7 @@ My code is really simple and easy to use, `index.js` is best readme file.
     mongoose.connection.on('connected', () => {
         console.info('Database connected')
 
-        const logMongoInstance = http2mongo(logMongo)
+        const logMongoInstance = http2mongo(logMongoConfig)
         require('./middlewares')(app, logMongoInstance)
 
         app.listen(config.port)
