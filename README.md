@@ -2,9 +2,10 @@
 
 Koa.js middleware, sniffer http request/response save to mongodb
 
+## Not ready to use but this can run
+
 ![](https://api.travis-ci.org/diggzhang/http2mongo.svg)
 
-## Not ready to use
 
 ## Install
 
@@ -25,6 +26,7 @@ My code is really simple and easy to use, `index.js` is best readme file.
     mongoose.connection.on('connected', () => {
         console.info('Database connected')
 
+        // here will return one mongo instance promise
         http2mongo(logMongoConfig)
         require('./middlewares')(app)
 
