@@ -2,6 +2,7 @@
 
 Koa.js middleware, sniffer http request/response save to mongodb
 
+![](https://api.travis-ci.org/diggzhang/http2mongo.svg)
 
 ## Not ready to use
 
