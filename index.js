@@ -12,7 +12,10 @@ const Log = Model.extend({
 });
 
 module.exports = function (mongoInstance) {
-    const mongolink = "mongodb://" + mongoInstance.host + ":" + mongoInstance.port + "/" + mongoInstance.db;
+    let host = mongoInstance.host || "localhost";
+    let port = mongoInstance.port || 27017;
+    let db = mongoInstance.db || "httplog";
+    const mongolink = "mongodb://" + host + ":" + port + "/" + db;
     console.log("log database connected to: " + mongolink);
     return mongorito.connect(mongolink);
 };
