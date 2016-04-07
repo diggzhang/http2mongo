@@ -21,6 +21,7 @@
   "author": "diggzhang",
   "license": "ISC",
   "dependencies": {
+    "jwt-decode": "^2.0.1",
     "mongorito": "^2.0.0",
     "on-finished": "^2.3.0"
   }

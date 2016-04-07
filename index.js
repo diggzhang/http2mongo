@@ -6,6 +6,7 @@
  */
 const onFinished = require("on-finished");
 const mongorito = require('mongorito');
+const jwt = require('jwt-decode');
 const Model = mongorito.Model;
 const Log = Model.extend({
     collection: 'logs'
@@ -32,8 +33,12 @@ module.exports.logSniffer = function () {
                 request: this.request.body,
                 response: this.response.body,
                 method: this.request.method,
-                status: this.status
+                status: this.status,
+                token: this.header['authorization'],
             };
+
+            let decodeToken = jwt(logMsg['token']);
+            logMsg['decodeToken'] = decodeToken;
 
             let log = new Log(logMsg);
             log.save();
