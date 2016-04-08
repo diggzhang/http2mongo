@@ -3,14 +3,12 @@
 /*
  * on-finished - execute a callback when a request closes, finishes, or errors
  * mongorito   - based on mongodb native driver
+ * jwt-decode  - decode the token
  */
 const onFinished = require("on-finished");
 const mongorito = require('mongorito');
 const jwt = require('jwt-decode');
 const Model = mongorito.Model;
-const Log = Model.extend({
-    collection: 'logs'
-});
 
 module.exports = function (mongoInstance) {
     let host = mongoInstance.host || "localhost";
@@ -24,11 +22,14 @@ module.exports = function (mongoInstance) {
 };
 
 module.exports.logSniffer = function () {
+    let Log = Model.extend({
+        collection: 'logs'
+    });
 
     let tagname = mongorito['apptag'];
     return function *logSniffer(next) {
-        let err;
 
+        let err;
         let onResponseFinished = function () {
             let logMsg = {
                 apptag: tagname,
@@ -63,7 +64,6 @@ module.exports.logSniffer = function () {
         if (err) {
             throw new err;
         }
-
     };
 };
 
