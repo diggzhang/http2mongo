@@ -10,6 +10,9 @@ const mongorito = require('mongorito');
 const jwt = require('jwt-decode');
 const Model = mongorito.Model;
 
+/*
+ * create one mongo instance return as Promise
+ */
 module.exports = function (mongoInstance) {
     let host = mongoInstance.host || "localhost";
     let port = mongoInstance.port || 27017;
@@ -21,9 +24,12 @@ module.exports = function (mongoInstance) {
     return mongorito.connect(mongolink);
 };
 
+/*
+ * http sniffer function
+ */
 module.exports.logSniffer = function () {
     let Log = Model.extend({
-        collection: 'logs'
+        collection: 'httplogs'
     });
 
     let tagname = mongorito['apptag'];
