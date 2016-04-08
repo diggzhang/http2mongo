@@ -16,29 +16,37 @@ module.exports = function (mongoInstance) {
     let host = mongoInstance.host || "localhost";
     let port = mongoInstance.port || 27017;
     let db = mongoInstance.db || "httplog";
+    let appTag = mongoInstance.apptag || "default";
     const mongolink = "mongodb://" + host + ":" + port + "/" + db;
     console.log("log database connected to: " + mongolink);
+    mongorito['apptag'] = appTag;
     return mongorito.connect(mongolink);
 };
 
 module.exports.logSniffer = function () {
 
+    let tagname = mongorito['apptag'];
     return function *logSniffer(next) {
         let err;
 
         let onResponseFinished = function () {
-
             let logMsg = {
+                apptag: tagname,
                 url: this.request.href,
-                request: this.request.body,
-                response: this.response.body,
                 method: this.request.method,
                 status: this.status,
-                token: this.header['authorization'],
+                request: this.request.body,
+                response: this.response.body,
             };
 
-            let decodeToken = jwt(logMsg['token']);
-            logMsg['decodeToken'] = decodeToken;
+            if (this.header['authorization'] != undefined) {
+                logMsg['token'] = this.header['authorization'];
+                let decodeToken = jwt(logMsg['token']);
+                logMsg['decodeToken'] = decodeToken;
+            } else {
+                logMsg['token'] = undefined;
+                logMsg['decodeToken'] = undefined;
+            }
 
             let log = new Log(logMsg);
             log.save();
@@ -55,6 +63,7 @@ module.exports.logSniffer = function () {
         if (err) {
             throw new err;
         }
+
     };
 };
 
