@@ -44,6 +44,8 @@ module.exports.logSniffer = function () {
                 status: this.status,
                 request: this.request.body,
                 response: this.response.body,
+                ua: this.header['user-agent'],
+                ip: this.request.ip
             };
 
             if (this.header['authorization'] != undefined) {
