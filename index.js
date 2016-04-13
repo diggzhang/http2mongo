@@ -3,11 +3,11 @@
 /*
  * on-finished - execute a callback when a request closes, finishes, or errors
  * mongorito   - based on mongodb native driver
- * jwt-decode  - decode the token
+ * moment      - get unix timestamp
  */
 const onFinished = require("on-finished");
 const mongorito = require('mongorito');
-const jwt = require('jwt-decode');
+const moment = require('moment');
 const Model = mongorito.Model;
 
 /*
@@ -45,16 +45,14 @@ module.exports.logSniffer = function () {
                 request: this.request.body,
                 response: this.response.body,
                 ua: this.header['user-agent'],
-                ip: this.request.ip
+                ip: this.header['remoteip'],
+                eventTime: moment().valueOf(),
             };
 
             if (this.header['authorization'] != undefined) {
                 logMsg['token'] = this.header['authorization'];
-                let decodeToken = jwt(logMsg['token']);
-                logMsg['decodeToken'] = decodeToken;
             } else {
                 logMsg['token'] = undefined;
-                logMsg['decodeToken'] = undefined;
             }
 
             let log = new Log(logMsg);
