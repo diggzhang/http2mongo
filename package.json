@@ -24,6 +24,6 @@
     "compare-urls": "^1.0.0",
     "moment": "^2.12.0",
     "mongorito": "^2.0.0",
-    "on-finished": "^2.3.0",
+    "on-finished": "^2.3.0"
   }
 }
