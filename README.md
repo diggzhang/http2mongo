@@ -18,27 +18,17 @@ My code is really simple and easy to use, `index.js` is best readme file.
 
 ```javascript
 
-    // step.0 open one single mongodb
-    const http2mongo = require('http2mongo')
-    const logMongoConfig = {host: 'localhost', port: 27017, db: 'log'}
+    const sniffer = require('http2mongo')
 
-    // step.1 require this package in middleware to create a mongodb instance
-    mongoose.connection.on('connected', () => {
-        console.info('Database connected')
+    app.use(cors({expose: ['Authorization']}))
+    app.use(logger())
+    app.use(errorTrace())
+    app.use(bodyParser())
+    app.use(sniffer.logSniffer())
+    app.use(router.routes())
 
-        // here will return one mongo instance promise
-        http2mongo(logMongoConfig)
-        require('./middlewares')(app)
-
-        app.listen(config.port)
-        console.log('app started on port ' + config.port)
-    })
-
-    // step.2 add sniffer before app.use(router)
-    app
-        .use(http2mongo.logSniffer())
-
-    ...
+    sniffer({"host":"10.8.8.X", "port": 27017,"db":"myloooog", "apptag": "onionsMainApp"});
+    app.listen(config.port);
 
 ```
 
