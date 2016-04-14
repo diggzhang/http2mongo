@@ -44,8 +44,6 @@ module.exports.logSniffer = function () {
             yield *next;
         } else {
             let err;
-            let forwardedIpsStr = this.get('X-Forwarded-For');
-            let forwardedIp = forwardedIpsStr.split(',')[0];
             let onResponseFinished = function () {
                 let logMsg = {
                     apptag: tagname,
@@ -55,9 +53,18 @@ module.exports.logSniffer = function () {
                     request: this.request.body,
                     response: this.response.body,
                     ua: this.header['user-agent'],
-                    ip: this.header['remoteip'] || forwardedIp,
                     eventTime: moment().valueOf(),
                 };
+
+                if (typeof this.header['remoteip'] != undefined) {
+                    logMsg['ip'] = this.header['remoteip'];
+                } else if (this.get('X-Forwarded-For') != '') {
+                    let forwardedIpsStr = this.get('X-Forwarded-For');
+                    let forwardedIp = forwardedIpsStr.split(',')[0];
+                    logMsg['ip'] = forwardedIp;
+                } else {
+                    logMsg['ip'] = undefined;
+                }
 
                 if (this.header['authorization'] != undefined) {
                     logMsg['token'] = this.header['authorization'];
